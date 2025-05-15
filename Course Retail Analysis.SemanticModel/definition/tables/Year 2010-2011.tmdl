@@ -1,0 +1,119 @@
+table 'Year 2010-2011'
+	isHidden
+	lineageTag: 296bdb73-8464-4ee0-91dc-a8d5fde90c55
+
+	column Invoice
+		dataType: string
+		isHidden
+		lineageTag: d1517661-3992-41cc-ad75-589ee930bef2
+		summarizeBy: none
+		sourceColumn: Invoice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockCode
+		dataType: string
+		isHidden
+		lineageTag: 2e7f966f-502a-458a-b932-bcf62082b6db
+		summarizeBy: none
+		sourceColumn: StockCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		isHidden
+		lineageTag: a8648bdc-de66-4920-9345-cfdfa7d69a0a
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dc4fe7db-c992-4f3c-aadc-7153f90eb06b
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceDate
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 7de63e18-de82-4e2e-be53-4e0fb9dc772e
+		summarizeBy: none
+		sourceColumn: InvoiceDate
+
+		variation Variation
+			isDefault
+			relationship: 56e2d663-23f5-4c5e-a06e-7bb8f4a131b0
+			defaultHierarchy: LocalDateTable_7ee421ef-a46f-4eca-83bd-8e3d7c57fbb2.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		isHidden
+		lineageTag: fe78e80d-05f0-46ce-ac6d-807e68c93d06
+		summarizeBy: sum
+		sourceColumn: Price
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cfebbc8b-29be-4155-a13a-95fb31af404e
+		summarizeBy: count
+		sourceColumn: Customer ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		isHidden
+		lineageTag: 9bc783e7-4e06-46d0-8dec-9a6150fa64c1
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Year 2010-2011' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\mark6\OneDrive\Desctop\online_retail_dataset.xlsx"), null, true),
+				    #"Year 2010-2011_Sheet" = Source{[Item="Year 2010-2011",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Year 2010-2011_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Invoice", type any}, {"StockCode", type any}, {"Description", type text}, {"Quantity", Int64.Type}, {"InvoiceDate", type datetime}, {"Price", type number}, {"Customer ID", Int64.Type}, {"Country", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

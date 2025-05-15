@@ -1,0 +1,34 @@
+table CustomersRetention
+	lineageTag: 2bf3dca8-b964-4082-99eb-71838ebe0d89
+
+	measure RepeatCustomersNumber = CALCULATE(DISTINCTCOUNT('CustomersRetention'[CustomerID]), 'CustomersRetention'[Count] > 1)
+		formatString: 0
+		lineageTag: c379bbf8-2ef0-428e-9a0b-7abd603280ce
+
+	measure RepeatCustomerRate = [RepeatCustomersNumber] / DISTINCTCOUNT('Year 2009-2011'[Customer ID])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e928ed87-ed53-437a-80ac-c3c82c06d551
+
+	column CustomerID
+		formatString: 0
+		lineageTag: c8f867df-ebe9-4c48-a7ff-0422f9e62375
+		summarizeBy: none
+		sourceColumn: InvoiceCustomer[CustomerID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		formatString: 0
+		lineageTag: 149932c0-3ca6-49ac-b641-5e70dbc0eea7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Count]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CustomersRetention = calculated
+		mode: import
+		source = SUMMARIZE(InvoiceCustomer, InvoiceCustomer[CustomerID], "Count", COUNT(InvoiceCustomer[CustomerID]))
+
+	annotation PBI_Id = c806efdc66f44ef3981abb42fdb77615
+

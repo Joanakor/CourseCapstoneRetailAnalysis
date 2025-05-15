@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: uk-UA
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Year 2009-2010","Year 2010-2011","Year 2009-2011"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.140.1577.0 (25.02)+00af0910c5ca19a229c472b0dfc17a2c488f6b0a
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'Year 2009-2010'
+ref table DateTableTemplate_b758f330-52fd-45ac-be99-d30c02aa80a3
+ref table LocalDateTable_1304b4e6-7233-4586-8e84-a19eecea35aa
+ref table 'Year 2010-2011'
+ref table LocalDateTable_7ee421ef-a46f-4eca-83bd-8e3d7c57fbb2
+ref table 'Year 2009-2011'
+ref table LocalDateTable_d79a6dc0-b425-47af-b371-144f18efcfc5
+ref table 'Product Income'
+ref table InvoiceCustomer
+ref table CustomersRetention
+
+ref cultureInfo en-US
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Course Retail Analysis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4e29bdb9-b54d-4d73-bd76-e8c353afe51a"
+  }
+}

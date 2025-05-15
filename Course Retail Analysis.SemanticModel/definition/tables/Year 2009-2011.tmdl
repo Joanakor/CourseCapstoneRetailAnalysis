@@ -1,0 +1,116 @@
+table 'Year 2009-2011'
+	lineageTag: e9d01647-44a3-4c7d-87a2-d8a5411f070f
+
+	column Invoice
+		dataType: string
+		lineageTag: 9c20e64d-4cdf-408f-9e32-4b07ca849527
+		summarizeBy: none
+		sourceColumn: Invoice
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockCode
+		dataType: string
+		lineageTag: 44d81cef-1b2e-4bd4-94a2-d88f804dc301
+		summarizeBy: none
+		sourceColumn: StockCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 7b41769d-628d-4db8-a5cc-2695e5ef88ad
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 88f15e87-8a41-42e4-93ce-25aa823b7045
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b1aca9bf-e5f0-4e8d-bcde-00d51885ec7f
+		summarizeBy: none
+		sourceColumn: InvoiceDate
+
+		variation Variation
+			isDefault
+			relationship: 1b67178c-d88a-4247-af2f-c332e2b2ff4f
+			defaultHierarchy: LocalDateTable_d79a6dc0-b425-47af-b371-144f18efcfc5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 59677e02-eaf5-4f1c-8536-a3169df94467
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 07518e80-8124-4e4e-8ab8-0df86b68a7d4
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: fa8e3004-5dfd-48a1-bc4f-3aabd9aa993d
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonOfYear = ```
+			IF('Year 2009-2011'[InvoiceDate].[Month] IN {"December", "January", "February"}, "Winter", 
+			                IF('Year 2009-2011'[InvoiceDate].[Month] IN {"March", "April", "May"}, "Spring", 
+			                IF('Year 2009-2011'[InvoiceDate].[Month] IN {"June", "July", "August"}, "Summer",
+			                IF('Year 2009-2011'[InvoiceDate].[Month] IN {"September", "October", "November"}, "Autumn"))))
+			```
+		dataType: string
+		lineageTag: 6548ed10-ba0d-4282-8878-bd7de515baa3
+		summarizeBy: distinctCount
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'Total Paid' = 'Year 2009-2011'[Quantity] * 'Year 2009-2011'[Price]
+		lineageTag: e77250f0-617c-4b16-8c6a-423e3684ac34
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Year 2009-2011' = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({#"Year 2009-2010", #"Year 2010-2011"}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Invoice", Int64.Type}}),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Changed Type", {"Invoice"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Errors",{{"Invoice", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type1", each [Description] <> null and [Description] <> ""),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each [Customer ID] <> null and [Customer ID] <> "")
+				in
+				    #"Filtered Rows1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,24 @@
+table InvoiceCustomer
+	lineageTag: 0216f0fd-dcbf-44f7-9b8b-d7a8b7edb0bb
+
+	column CustomerID
+		formatString: 0
+		lineageTag: 5e4c8e06-eb56-44cc-b3f9-8dfb46fa4830
+		summarizeBy: count
+		sourceColumn: Year 2009-2011[Customer ID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Invoice
+		lineageTag: 826e3fde-6802-4ad8-a201-e8e517473c1d
+		summarizeBy: none
+		sourceColumn: Year 2009-2011[Invoice]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition InvoiceCustomer = calculated
+		mode: import
+		source = Distinct(SELECTCOLUMNS('Year 2009-2011', 'Year 2009-2011'[Customer ID], 'Year 2009-2011'[Invoice]))
+
+	annotation PBI_Id = 94eef455871044b9a4e2ba79f43a8efc
+

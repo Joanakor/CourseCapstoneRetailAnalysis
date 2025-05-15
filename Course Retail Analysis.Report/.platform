@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Course Retail Analysis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e5886d51-66fb-4dea-a8d3-7495c15ef84b"
+  }
+}

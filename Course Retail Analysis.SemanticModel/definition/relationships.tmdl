@@ -1,0 +1,25 @@
+relationship c6f4a931-12d8-4e66-b68f-d6b17a452817
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Year 2009-2010'.InvoiceDate
+	toColumn: LocalDateTable_1304b4e6-7233-4586-8e84-a19eecea35aa.Date
+
+relationship 56e2d663-23f5-4c5e-a06e-7bb8f4a131b0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Year 2010-2011'.InvoiceDate
+	toColumn: LocalDateTable_7ee421ef-a46f-4eca-83bd-8e3d7c57fbb2.Date
+
+relationship 1b67178c-d88a-4247-af2f-c332e2b2ff4f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Year 2009-2011'.InvoiceDate
+	toColumn: LocalDateTable_d79a6dc0-b425-47af-b371-144f18efcfc5.Date
+
+relationship db358f4a-68f9-58fc-0ad5-09ef408a35fa
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Year 2009-2011'.StockCode
+	toColumn: 'Product Income'.StockCode
+
+relationship 950472ae-9cbc-9adc-78c1-478ff75f28b1
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Year 2009-2011'.'Customer ID'
+	toColumn: CustomersRetention.CustomerID
+
